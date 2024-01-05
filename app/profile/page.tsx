@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 // UI Elements
-import { default as ProfileView } from '@/components/Profile';
+import { default as ProfileView } from "@/components/Profile";
 import FlexhireAPI from "@/lib/flexhire-api";
 
 export default async function Profile() {
@@ -13,9 +13,7 @@ export default async function Profile() {
   } = await supabase.auth.getUser();
 
   // FLEXHIRE User Request
-  const userData =  await FlexhireAPI.fetchCurrentUserProfile();
-  
-  console.log({ userData });
+  const userData = await FlexhireAPI.fetchCurrentUserProfile();
 
-  return <ProfileView user={userData} />
+  return <ProfileView user={userData} />;
 }

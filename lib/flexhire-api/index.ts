@@ -263,7 +263,6 @@ const FlexhireAPI = {
         fragment contract_useIsUnsentJobApplication on Contract {
           status
         }
-        
       `,
       }),
     })

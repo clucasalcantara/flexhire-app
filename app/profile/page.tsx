@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 // UI Elements
-import { default as ProfileView } from "@/components/Profile";
+import { default as ProfileView } from "@/components/ProfileView";
 import FlexhireAPI from "@/lib/flexhire-api";
 
 export default async function Profile() {

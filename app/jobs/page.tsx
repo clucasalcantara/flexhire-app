@@ -26,7 +26,7 @@ export default async function Profile() {
         </h1>
         <div className="flex flex-col gap-12 mx-24">
           {edges.map(({ node }: any) => (
-            <div className="flex flex-col gap-4 bg-slate-400 rounded p-8 hover:bg-slate-500 cursor-pointer relative shadow-lg">
+            <div key={node.id} className="flex flex-col gap-4 bg-slate-400 rounded p-8 hover:bg-slate-500 cursor-pointer relative shadow-lg">
               <h2 className="text-2xl font-bold">{node.title}</h2>
               <span className="font-bold text-neutral-700">
                 by {node.firm.name}

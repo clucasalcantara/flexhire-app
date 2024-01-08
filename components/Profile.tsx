@@ -1,11 +1,25 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
-import { redirect } from "next/navigation";
 
-export default function Profile({ user }: any) {  
-  const { profile, name, avatarUrl, userSkills } = user;
+import { useState } from "react";
+import { toast } from "react-toastify"; 
+import Image from "next/image";
+
+export default function Profile({ user, handleSetApiKey }: any) {  
+  const { profile = {}, name, avatarUrl, userSkills = [] } = user || {};
   const [newApiKey, setNewApiKey] = useState<string>("");
+
+  const handleSetNewApiKey = () => {
+    try {
+      localStorage.setItem('FLEXHIRE-API-KEY', newApiKey);
+      toast.success("API KEY set successfully! Refreshing...", {
+        onClose: () => {
+          window.location.reload();
+        }
+      });
+    } catch (e) {
+      toast.error("Error setting API KEY");
+    }
+  };
 
   return (
     <div className="p-8 lg:p-32 flex flex-col gap-2 w-full bg-slate-700 relative">
@@ -30,7 +44,7 @@ export default function Profile({ user }: any) {
         <div className="flex w-full justify-center mt-8">
           <div className="flex flex-col lg:grid lg:grid-cols-5 gap-4">
             {userSkills.map(({ skill }: any) => (
-              <div className="p-4 bg-slate-800 rounded-lg flex justify-center items-center text-center hover:bg-slate-600">
+              <div key={skill.name} className="p-4 bg-slate-800 rounded-lg flex justify-center items-center text-center hover:bg-slate-600">
                 <span className="text-white">{skill.name}</span>
               </div>
             ))}
@@ -53,7 +67,7 @@ export default function Profile({ user }: any) {
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-green-500"
           } rounded-lg py-2 px-4 text-white`}
-          onClick={() => alert("API KEY SET")}
+          onClick={handleSetNewApiKey}
         >
           Set
         </button>

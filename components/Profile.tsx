@@ -4,16 +4,37 @@ import { useState } from "react";
 import { toast } from "react-toastify"; 
 import Image from "next/image";
 
-export default function Profile({ user, handleSetApiKey }: any) {  
-  const { profile = {}, name, avatarUrl, userSkills = [] } = user || {};
+const refetchUserData = async (newApiKey: string) => {
+  const response = await fetch('/api/user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ apiKey: newApiKey })
+  });
+
+  const { userData } = await response.json();
+
+  return userData;
+}
+
+export default function Profile({ user }: any) {
+  const [userData, setUserData] = useState<any>(user || {});
+  const { profile = {}, name, avatarUrl, userSkills = [] } = userData;
   const [newApiKey, setNewApiKey] = useState<string>("");
 
   const handleSetNewApiKey = () => {
     try {
       localStorage.setItem('FLEXHIRE-API-KEY', newApiKey);
       toast.success("API KEY set successfully! Refreshing...", {
-        onClose: () => {
-          window.location.reload();
+        onClose: async () => {
+          try {
+            const newUserData = await refetchUserData(newApiKey);
+
+            setUserData(newUserData);
+          } catch (e: any) {
+            throw new Error(e);
+          }
         }
       });
     } catch (e) {

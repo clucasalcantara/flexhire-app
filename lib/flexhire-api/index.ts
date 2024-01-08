@@ -1,12 +1,14 @@
+import { toast } from "react-toastify";
+
 const FlexhireAPI = {
-  fetchCurrentUserProfile: async () => {
+  fetchCurrentUserProfile: async (overridalKey?: string) => {
     try {
       const response = await fetch("https://flexhire.com/api/v2", {
         method: "POST",
         headers: {
           accept: "application/json",
           "content-type": "application/json",
-          "FLEXHIRE-API-KEY": process.env.NEXT_PUBLIC_FLEXHIRE_API_KEY!,
+          "FLEXHIRE-API-KEY": overridalKey ?? process.env.NEXT_PUBLIC_FLEXHIRE_API_KEY!,
         },
         body: JSON.stringify({
           query: `
@@ -136,19 +138,21 @@ const FlexhireAPI = {
       const {
         data: { currentUser },
       } = await response.json();
-
+      
+      if (!currentUser) throw new Error("No user found");      
+      
       return currentUser;
     } catch (error) {
       console.error(error);
     }
   },
-  fetchLatestJobs: async () => {
+  fetchLatestJobs: async (overridalKey?: string) => {
     const response = await fetch("https://flexhire.com/api/v2", {
       method: "POST",
       headers: {
         accept: "application/json",
         "content-type": "application/json",
-        "FLEXHIRE-API-KEY": process.env.NEXT_PUBLIC_FLEXHIRE_API_KEY!,
+        "FLEXHIRE-API-KEY": overridalKey ?? process.env.NEXT_PUBLIC_FLEXHIRE_API_KEY!,
       },
       body: JSON.stringify({
         query: `
@@ -271,6 +275,8 @@ const FlexhireAPI = {
       data: { currentUser },
     } = await response.json();
 
+    if (!currentUser) throw new Error("No user found");      
+    
     return currentUser;
   },
 };

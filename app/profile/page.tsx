@@ -16,7 +16,6 @@ export default async function Profile() {
     return <div>Not logged in</div>;
   }
 
-  // FLEXHIRE User Request
   const userData = await FlexhireAPI.fetchCurrentUserProfile();
 
   return <ProfileView user={userData} />;

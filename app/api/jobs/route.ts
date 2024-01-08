@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
     if (!apiKey) return;
 
-    const jobs = await FlexhireAPI.fetchLatestJobs(apiKey);
+    const jobs = await FlexhireAPI.fetchLatestJobs(apiKey) || {};
 
-    return Response.json({ jobs })
+    return (Response as any).json({ jobs })
   }

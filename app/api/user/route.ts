@@ -8,5 +8,5 @@ export async function POST(request: Request) {
 
     const userData = await FlexhireAPI.fetchCurrentUserProfile(apiKey);
 
-    return Response.json({ userData })
+    return (Response as any).json({ userData })
   }

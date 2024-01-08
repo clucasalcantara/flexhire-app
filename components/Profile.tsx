@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function Profile({ user }: any) {
+export default function Profile({ user }: any) {  
   const { profile, name, avatarUrl, userSkills } = user;
   const [newApiKey, setNewApiKey] = useState<string>("");
 

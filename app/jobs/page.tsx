@@ -1,9 +1,22 @@
 import FlexhireAPI from "@/lib/flexhire-api";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 export default async function Profile() {
   const jobs = await FlexhireAPI.fetchLatestJobs();
   const { jobOpportunities } = jobs;
   const { edges, totalCount } = jobOpportunities;
+
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return <div>Not logged in</div>;
+  }
 
   return (
     <div className="p-8 lg:p-16 flex flex-col gap-2 w-full bg-slate-700">

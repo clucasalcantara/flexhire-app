@@ -12,6 +12,10 @@ export default async function Profile() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return <div>Not logged in</div>;
+  }
+
   // FLEXHIRE User Request
   const userData = await FlexhireAPI.fetchCurrentUserProfile();
 
